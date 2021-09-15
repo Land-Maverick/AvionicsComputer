@@ -38,7 +38,7 @@ The following hardware and devices are required:
 
 ## Full Program Description
 Brief description of the program file "LADriver2.ino".
-'''c
+```c
 // Actuator 1 Relay Output Pins
 const int R1_1 = 8;
 const int R1_2 = 9;
@@ -46,24 +46,24 @@ const int R1_2 = 9;
 // Actuator 2 Relay Output Pins
 const int R2_1 = 10;
 const int R2_2 = 11;
-'''
+```
 Set up relay hardware pinout on microcontroller.
 
-'''c
+```c
 // Number of voltage values to ignore while "debouncing" each actuator
 const int ignore_count = 200;
-'''
+```
 Helps ignore naturally occuring, harmless current spikes at the beginning of motor movements.
 
-'''c
+```c
 // Current Sensor Input Pin For Actuator 1
 const int CS1 = A0;
 const int CS1_MP = 510; // Midpoint ((2.5v), 0A reading) for CS1
 int CS1_Val = CS1_MP;   // Measured voltage for CS1
-'''
+```
 Set the "midpoint" or zero current reading.
 
-'''c
+```c
 // Averaging Variables for CS1
 const int CS1_nv = 30;         // number of values to use for smoothing
 int CS1_vals[CS1_nv];          // Array of integers to hold values to average
@@ -74,16 +74,16 @@ int CS1_ignore = ignore_count; // number of values to ignore before acting on va
 bool CS1_ignoring = false;     // boolean for controlling "debounce" ignoring
 int CS1_OT = 10;               // difference threshold for "Over current!" (hit object)
 int CS1_NC = 3;                // threshold for "no current" (motors are stopped, possibly at endstops)
-'''
+```
 Variables and Properties for smoothing averages, high current thresholds, and endstop current thresholds.
 
-'''c
+```c
 // Handle incoming serial byte for control
 int incomingByte = 0;
-'''
+```
 Variable for handling incoming serial control bytes.
 
-'''c
+```c
 // Extend Linear Actuator Arms
 void extend()
 {
@@ -95,10 +95,10 @@ void extend()
   digitalWrite(R2_1, HIGH);
   digitalWrite(R2_2, LOW);
 }
-'''
+```
 Function to extend both linear actuators.
 
-'''c
+```c
 // Halt Linear Actuator Arms
 void halt()
 {
@@ -110,10 +110,10 @@ void halt()
   digitalWrite(R2_1, HIGH);
   digitalWrite(R2_2, HIGH);
 }
-'''
+```
 Function to stop both actuators from moving.
 
-'''c
+```c
 // Retract Linear Actuator Arms
 void retract()
 {
@@ -125,10 +125,10 @@ void retract()
   digitalWrite(R2_1, LOW);
   digitalWrite(R2_2, HIGH);
 }
-'''
+```
 Function to retract both linear actuators.
 
-'''c
+```c
 void readVoltage()
 {
   // Read sensor 1's voltage and perform smoothing
@@ -224,10 +224,10 @@ void readVoltage()
     }
   }
 }
-'''
+```
 Perform smoothing and averaging, and current "debouncing".
 
-'''c
+```c
 // Set up required GPIO and Serial comms
 void setup()
 {
@@ -251,10 +251,10 @@ void setup()
   // Begin Serial comms
   Serial.begin(115200);
 }
-'''
+```
 Set up pinmodes and begin serial at 115200 baud.
 
-'''c
+```c
 void loop()
 {
   if (Serial.available() > 0)
@@ -292,7 +292,7 @@ void loop()
   }
   readVoltage();
 }
-'''
+```
 Receive serial input, command motor movement, and check current measurement.
 
 ###### David if you actually read this README the whole way and actually see this line, I will mail/bring you a small bag of your favorite candy.
