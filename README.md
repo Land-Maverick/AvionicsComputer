@@ -22,6 +22,7 @@ The following hardware and devices are required:
 
 ## Wiring Schematic
 ![Wiring Schematic](Linear-Actuator-Schematic.png?raw=true)
+**IMPORTANT!!** The current sensors have a label marked "i-->" on the back, pointing from one of the large holes to the other. The hole the arrow points towards is the "-" (i- negative) pin, where the hole the arrow comes from is the "+" (i+ positive) pin. These must be installed correctly for proper operation!
 
 # Program Overview
 ## Software Quickstart
