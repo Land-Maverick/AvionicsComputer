@@ -38,7 +38,7 @@ The following hardware and devices are required:
 
 ## Full Program Description
 Brief description of the program file "LADriver2.ino".
-'''cpp
+'''c
 // Actuator 1 Relay Output Pins
 const int R1_1 = 8;
 const int R1_2 = 9;
@@ -49,13 +49,13 @@ const int R2_2 = 11;
 '''
 Set up relay hardware pinout on microcontroller.
 
-'''cpp
+'''c
 // Number of voltage values to ignore while "debouncing" each actuator
 const int ignore_count = 200;
 '''
 Helps ignore naturally occuring, harmless current spikes at the beginning of motor movements.
 
-'''cpp
+'''c
 // Current Sensor Input Pin For Actuator 1
 const int CS1 = A0;
 const int CS1_MP = 510; // Midpoint ((2.5v), 0A reading) for CS1
@@ -63,7 +63,7 @@ int CS1_Val = CS1_MP;   // Measured voltage for CS1
 '''
 Set the "midpoint" or zero current reading.
 
-'''cpp
+'''c
 // Averaging Variables for CS1
 const int CS1_nv = 30;         // number of values to use for smoothing
 int CS1_vals[CS1_nv];          // Array of integers to hold values to average
@@ -77,13 +77,13 @@ int CS1_NC = 3;                // threshold for "no current" (motors are stopped
 '''
 Variables and Properties for smoothing averages, high current thresholds, and endstop current thresholds.
 
-'''cpp
+'''c
 // Handle incoming serial byte for control
 int incomingByte = 0;
 '''
 Variable for handling incoming serial control bytes.
 
-'''cpp
+'''c
 // Extend Linear Actuator Arms
 void extend()
 {
@@ -98,7 +98,7 @@ void extend()
 '''
 Function to extend both linear actuators.
 
-'''cpp
+'''c
 // Halt Linear Actuator Arms
 void halt()
 {
@@ -113,7 +113,7 @@ void halt()
 '''
 Function to stop both actuators from moving.
 
-'''cpp
+'''c
 // Retract Linear Actuator Arms
 void retract()
 {
@@ -128,7 +128,7 @@ void retract()
 '''
 Function to retract both linear actuators.
 
-'''cpp
+'''c
 void readVoltage()
 {
   // Read sensor 1's voltage and perform smoothing
@@ -227,7 +227,7 @@ void readVoltage()
 '''
 Perform smoothing and averaging, and current "debouncing".
 
-'''cpp
+'''c
 // Set up required GPIO and Serial comms
 void setup()
 {
@@ -254,7 +254,7 @@ void setup()
 '''
 Set up pinmodes and begin serial at 115200 baud.
 
-'''cpp
+'''c
 void loop()
 {
   if (Serial.available() > 0)
