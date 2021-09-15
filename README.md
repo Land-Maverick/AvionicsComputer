@@ -1,7 +1,6 @@
 # TeensyRobotComputer
 Firmware for controlling the Land Maverick soil-sampling robotic drive base
 
-=======
 # LADriver2
 # Dual Linear Actuator Motor Driver Software
 This program is designed to run on an Arduino Uno microcontroller, however it _should_ be portable to any other Arduino IDE compatible microcontroller.
