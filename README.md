@@ -13,7 +13,7 @@ This section will explain how to set up the Linear Actuators
 ## Required Hardware
 The following hardware and devices are required:
 1. 2x   2-Channel Relay Module
-2. 2x   Pololu cs01a 0K1214 Current Sensors (+/-20A)
+2. 2x   Pololu cs01a 0J1214 Current Sensors (+/-20A)
     * These current sensors are **NOT** sensitive enough for the linear actuators. Barely enough difference is generated for the current drawn by the actuators.
 3. 2x   Linear Actuators, Model XTL: 200mm throw, 24mm/s rate, 12VDC, 500N
 4. 1x   5V 3A+ Power Source (for digital logic)
