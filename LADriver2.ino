@@ -1,42 +1,3 @@
-<<<<<<< Updated upstream
-# Teensy Robot Computer
-Firmware for controlling the Land Maverick soil-sampling robotic drive base
-=======
-# Dual Linear Actuator Motor Driver Software
-This program is designed to run on an Arduino Uno microcontroller, however it _should_ be portable to any other Arduino IDE compatible microcontroller.
-
-**Note**: If an Arduino Uno is not used, the output and input pin numbers in the program will need to be updated to the appropriate input and output pins on the microcontroller board in use.
-
-# Hardware Setup
-This section will explain how to set up the Linear Actuators
-
-## Required Hardware
-The following hardware and devices are required:
-1. 2x   2-Channel Relay Module
-2. 2x   Pololu cs01a 0K1214 Current Sensors (+/-20A)
-    * These current sensors are **NOT** sensitive enough for the linear actuators. Barely enough difference is generated for the current drawn by the actuators.
-3. 2x   Linear Actuators, Model XTL: 200mm throw, 24mm/s rate, 12VDC, 500N
-4. 1x   5V 3A+ Power Source (for digital logic)
-5. 1x   12V 10A Power Source (for Linear Actuators)
-6. 1x   Arduino IDE compatible microcontroller (Uno, Teensy, ESP32, etc...)
-
-## Wiring Schematic
-![Wiring Schematic](Linear-Actuator-Schematic.png?raw=true)
-
-# Program Overview
-## Software Quickstart
-1. Power on microcontroller and connect to Arduino IDE
-2. Upload "LADriver2.ino"
-3. Wire all hardware components as specified in the wiring diagram above
-4. Via Arduino IDE Serial Monitor (or any device connected to the microcontroller via serial) at 115200baud
-    * Command "1" (digit one) to request extending motors
-    * Command "2" (digit two) to request retracting motors
-    * Command "3" (digit three) or any char except "1" or "2" to halt both motors
-5. Send one of the commands.
-
-## Full Program Description
-Brief description of the program file "LADriver2.ino".
-'''cpp
 // Actuator 1 Relay Output Pins
 const int R1_1 = 8;
 const int R1_2 = 9;
@@ -44,24 +5,15 @@ const int R1_2 = 9;
 // Actuator 2 Relay Output Pins
 const int R2_1 = 10;
 const int R2_2 = 11;
-'''
-Set up relay hardware pinout on microcontroller.
 
-'''cpp
 // Number of voltage values to ignore while "debouncing" each actuator
 const int ignore_count = 200;
-'''
-Helps ignore naturally occuring, harmless current spikes at the beginning of motor movements.
 
-'''cpp
 // Current Sensor Input Pin For Actuator 1
 const int CS1 = A0;
 const int CS1_MP = 510; // Midpoint ((2.5v), 0A reading) for CS1
 int CS1_Val = CS1_MP;   // Measured voltage for CS1
-'''
-Set the "midpoint" or zero current reading.
 
-'''cpp
 // Averaging Variables for CS1
 const int CS1_nv = 30;         // number of values to use for smoothing
 int CS1_vals[CS1_nv];          // Array of integers to hold values to average
@@ -72,16 +24,26 @@ int CS1_ignore = ignore_count; // number of values to ignore before acting on va
 bool CS1_ignoring = false;     // boolean for controlling "debounce" ignoring
 int CS1_OT = 10;               // difference threshold for "Over current!" (hit object)
 int CS1_NC = 3;                // threshold for "no current" (motors are stopped, possibly at endstops)
-'''
-Variables and Properties for smoothing averages, high current thresholds, and endstop current thresholds.
 
-'''cpp
+// Current Sensor Input Pin For Actuator 2
+const int CS2 = A1;
+const int CS2_MP = 510; // Midpoint ((2.5v), 0A reading) for CS2
+int CS2_Val = CS2_MP;   // Measured votlage for CS2
+
+// Averaging Variables for CS2
+const int CS2_nv = 30;         // number of values to use for smoothing
+int CS2_vals[CS2_nv];          // Array of integers to hold values to average
+int CS2_sum;                   // Sum of all values in the array
+int CS2_avg;                   // Average of all values in array
+int CS2_idx;                   // Index within value array
+int CS2_ignore = ignore_count; // number of values to ignore before acting on values
+bool CS2_ignoring = false;     // boolean for controlling "debounce" ignoring
+int CS2_OT = 10;               // difference threshold for "Over current!" (hit object)
+int CS2_NC = 3;                // threshold for "no current" (motors are stopped, possibly at endstops)
+
 // Handle incoming serial byte for control
 int incomingByte = 0;
-'''
-Variable for handling incoming serial control bytes.
 
-'''cpp
 // Extend Linear Actuator Arms
 void extend()
 {
@@ -93,10 +55,7 @@ void extend()
   digitalWrite(R2_1, HIGH);
   digitalWrite(R2_2, LOW);
 }
-'''
-Function to extend both linear actuators.
 
-'''cpp
 // Halt Linear Actuator Arms
 void halt()
 {
@@ -108,10 +67,7 @@ void halt()
   digitalWrite(R2_1, HIGH);
   digitalWrite(R2_2, HIGH);
 }
-'''
-Function to stop both actuators from moving.
 
-'''cpp
 // Retract Linear Actuator Arms
 void retract()
 {
@@ -123,10 +79,7 @@ void retract()
   digitalWrite(R2_1, LOW);
   digitalWrite(R2_2, HIGH);
 }
-'''
-Function to retract both linear actuators.
 
-'''cpp
 void readVoltage()
 {
   // Read sensor 1's voltage and perform smoothing
@@ -222,10 +175,7 @@ void readVoltage()
     }
   }
 }
-'''
-Perform smoothing and averaging, and current "debouncing".
 
-'''cpp
 // Set up required GPIO and Serial comms
 void setup()
 {
@@ -249,10 +199,7 @@ void setup()
   // Begin Serial comms
   Serial.begin(115200);
 }
-'''
-Set up pinmodes and begin serial at 115200 baud.
 
-'''cpp
 void loop()
 {
   if (Serial.available() > 0)
@@ -290,5 +237,3 @@ void loop()
   }
   readVoltage();
 }
-'''
-Receive serial input, command motor movement, and check current measurement.
