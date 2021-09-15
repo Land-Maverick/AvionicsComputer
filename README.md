@@ -15,6 +15,7 @@ The following hardware and devices are required:
 1. 2x   2-Channel Relay Module
 2. 2x   Pololu cs01a 0J1214 Current Sensors (+/-20A)
     * These current sensors are **NOT** sensitive enough for the linear actuators. Barely enough difference is generated for the current drawn by the actuators.
+    * **NOTE** These sensors are **5V analog** which means they will **NOT WORK WITH A TEENSY 4.0!! DO NOT ATTEMPT TO USE THESE SENSORS OR RELAYS WITH A TEENSY 4.0!**
 3. 2x   Linear Actuators, Model XTL: 200mm throw, 24mm/s rate, 12VDC, 500N
 4. 1x   5V 3A+ Power Source (for digital logic)
 5. 1x   12V 10A Power Source (for Linear Actuators)
@@ -293,3 +294,5 @@ void loop()
 }
 '''
 Receive serial input, command motor movement, and check current measurement.
+
+###### David if you actually read this README the whole way and actually see this line, I will mail/bring you a small bag of your favorite candy.
