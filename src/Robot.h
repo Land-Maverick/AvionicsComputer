@@ -18,6 +18,7 @@
 
 //#include "peripheral/GyroAccel.h"
 //#include "peripheral/LoRaRadio.h"
+#include "peripherals/SerialReaderTeensy.h"
 
 
 /*
@@ -43,12 +44,16 @@ class Robot : public SystemInterface {
 
 private:
 
+	usb_serial_class * serialStream = NULL;	// Doesn't work for Arduino which uses HardwareSerial
+
+
 	RobotState robotState = IDLE;			// initial system state is IDLE
 
 
 //	MPU9250 * robotIMU = new MPU6050();
-
 //	DriveTrain * driveTrain = new DriveTrain(robotIMU);
+
+	SerialReaderTeensy * serialReader = new SerialReaderTeensy();
 
 
 
@@ -81,6 +86,7 @@ public:
 
 
 	bool systemInit();
+	bool systemInit(usb_serial_class * s);
 	void registerAllLoops(Looper * runningLooper);
 
 	void zeroAllSensors();
@@ -88,6 +94,8 @@ public:
 	void beginStateMachine();
 	void updateStateMachine();
 	void endStateMachine();
+
+	void printOutput();
 
 };
 

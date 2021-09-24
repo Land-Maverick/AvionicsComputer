@@ -13,17 +13,37 @@ Robot::Robot(){};
 
 
 /*
+ * Init function for the system which takes in SPI/I2C/Serial objects as input parameters
+ * in case the user wishes to use alternative hardware chips such as when pins on the default
+ * ICs are needed for another capability
+ */
+bool Robot::systemInit(usb_serial_class * s){
+
+	serialStream = s;
+
+
+	systemInit();
+
+	serialReader->init(s);
+
+	return true;
+
+}
+
+
+/*
  * Init function for the system, should be run after instantiation
- * Should take SPI/I2C/Serial objects as imput parameters?
  */
 bool Robot::systemInit(){
 
 	pinMode(LED_BUILTIN, OUTPUT);		// ! will conflict with CLK if using SPI !
+	digitalWrite(LED_BUILTIN, HIGH);
 
 
 	return true;
 
 }
+
 
 /*
  * Function to register all loops to the system looper. The looper must have the
@@ -43,7 +63,6 @@ void Robot::zeroAllSensors(){
 
 	//robotStateEstimator->reset(millis());
 
-	//selfRighting->zeroSensors();
 
 }
 
@@ -53,7 +72,9 @@ void Robot::zeroAllSensors(){
  */
 void Robot::beginStateMachine(){
 
-	Serial.println(F("STARTED ROBOT LOOP"));
+	//serialObjPtr->println(F("STARTED ROBOT LOOP"));
+
+
 	//zeroAllSensors();
 
 }
@@ -61,14 +82,33 @@ void Robot::beginStateMachine(){
 
 void Robot::updateStateMachine(){
 
+	//digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 
-	digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-	Serial.println(millis());
+	serialReader->readMessage();
 
 
+
+	printOutput();
 }
 
 
 void Robot::endStateMachine(){
+
+}
+
+
+/*
+ * Print data of the system to display for logging or debugging purposes
+ */
+void Robot::printOutput(){
+
+#ifdef USE_SERIAL
+
+	serialStream->println(millis());
+
+	serialStream->println(serialReader->getCurrentReadMsg());
+
+
+#endif
 
 }

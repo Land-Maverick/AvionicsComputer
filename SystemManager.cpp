@@ -33,13 +33,9 @@ void SystemManager::mainSetup(){
 	Serial.println(F("Serial initialized"));
 #endif
 
-
-//#ifdef USE_ROBOT_SYSTEM
-	robot->systemInit();				// initializing system object
+	// Main system is the robot
+	robot->systemInit(&Serial);			// initializing system object
 	robot->registerAllLoops(looper);    // and registering its system/subsystem loops
-//#endif
-
-
 
 }
 
@@ -54,7 +50,7 @@ void SystemManager::mainLoop(){
 	switch(state){
 
 	// Startup state, for starting loops, which should run system/subsystem initialization code that
-	// doesn't need to run in setup() unlike hardware peripheral instances
+	// doesn't need to run in setup(), unlike hardware peripheral instances
 	case Startup:
 
 		// Don't attempt to run loops if they failed to start, stuck in this state
