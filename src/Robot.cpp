@@ -20,11 +20,9 @@ Robot::Robot(){};
 bool Robot::systemInit(usb_serial_class * s){
 
 	serialStream = s;
-
+	serialReader->init(s);
 
 	systemInit();
-
-	serialReader->init(s);
 
 	return true;
 
@@ -38,6 +36,7 @@ bool Robot::systemInit(){
 
 	pinMode(LED_BUILTIN, OUTPUT);		// ! will conflict with CLK if using SPI !
 	digitalWrite(LED_BUILTIN, HIGH);
+
 
 
 	return true;
@@ -72,7 +71,7 @@ void Robot::zeroAllSensors(){
  */
 void Robot::beginStateMachine(){
 
-	//serialObjPtr->println(F("STARTED ROBOT LOOP"));
+	//serialStream->println(F("STARTED ROBOT LOOP"));
 
 
 	//zeroAllSensors();
@@ -84,7 +83,10 @@ void Robot::updateStateMachine(){
 
 	//digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 
-	serialReader->readMessage();
+
+	serialReader->readMessage();				// update the reader with the latest serial data message
+
+
 
 
 
@@ -106,7 +108,12 @@ void Robot::printOutput(){
 
 	serialStream->println(millis());
 
-	serialStream->println(serialReader->getCurrentReadMsg());
+
+
+	//serialReader->printCurrentReadMsg();
+
+	serialStream->print(serialReader->getLeftJoystick()); Serial.print(F(" "));
+	serialStream->println(serialReader->getRightJoystick());
 
 
 #endif
